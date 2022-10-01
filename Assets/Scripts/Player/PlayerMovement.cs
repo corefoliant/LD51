@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // ? ????? ?? ? ???? ???????
     [SerializeField] private CharacterController controller;
 
-    [SerializeField] private float speed;
-    [SerializeField] private float crouchSpeed;
-    [SerializeField] private float runSpeed;
+    private float speed;
+    public float crouchSpeed;
+    public float runSpeed;
 
     private Vector3 velocity;
 
-    [SerializeField] private float turnSmoothTime;
+    public float turnSmoothTime;
     private float turnSmoothVelocity;
 
 
-    [SerializeField] private bool isCrouching;
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private float gravity;
+    private bool isCrouching;
+    private bool isGrounded;
+    public LayerMask groundMask;
+    public float groundCheckDistance;
+    private float gravity = -9.8f;
 
-    [SerializeField] private float jumpHeight;
+    public float jumpHeight;
 
     private Animator anim;
+
+    private Vector2 _inputAxis;
 
     private void Start()
     {
@@ -42,66 +43,56 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         }
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+        _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
         forward.y = 0f;
         Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
-        Vector3 direction = horizontal * right + vertical * forward;
+        Vector3 direction = _inputAxis.x * right + _inputAxis.y * forward;
 
-        if (isGrounded && !isCrouching)
+        anim.SetBool("IsGrounded", isGrounded);
+        anim.SetBool("IsRunning", _inputAxis.magnitude > 0.1f);
+
+        if (isGrounded)
         {
-            speed = runSpeed;
-            if (!isCrouching && Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Jump();
                 anim.SetTrigger("JumpTrigger");
             }
-            else if (Input.GetKeyDown(KeyCode.C))
-            {
-                Crouch();
-                anim.SetBool("IsCrouching", true);
-                controller.height = 1;
-                controller.center = new Vector3(controller.center.x, 0.5f, controller.center.z);
-            }
-        }
-        else if (isCrouching)
-        {
-            speed = crouchSpeed;
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Crouch();
-                anim.SetBool("IsCrouching", false);
-                controller.height = 2;
-                controller.center = new Vector3(controller.center.x, 1, controller.center.z);
+                Crouch(!isCrouching);
             }
+
+            if (isCrouching)
+            {
+                speed = crouchSpeed;   
+            } else
+            {
+                speed = runSpeed;
+            }
+        } else
+        {
+            Crouch(false);
         }
 
-        if (direction.magnitude >= 0.1f)
+        if (_inputAxis.magnitude > 0f)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             controller.Move(direction * speed * Time.deltaTime);
-
-            anim.SetBool("IsRunning", true);
-        }
-        else
-        {
-            anim.SetBool("IsRunning", false);
         }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
-    }
-
-    private void Run()
-    {
 
     }
 
@@ -110,8 +101,11 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
     }
 
-    private void Crouch()
+    private void Crouch(bool state)
     {
-        isCrouching = !isCrouching;
+        isCrouching = state;
+        anim.SetBool("IsCrouching", isCrouching);
+        controller.height = isCrouching ? 1f : 2f;
+        controller.center = new Vector3(controller.center.x, isCrouching ? 0.5f : 1f, controller.center.z);
     }
 }
