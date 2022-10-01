@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // ? ????? ?? ? ???? ???????
     [SerializeField] private CharacterController controller;
 
     [SerializeField] private float speed;
@@ -39,7 +40,12 @@ public class PlayerMovement : MonoBehaviour
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        //Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        forward.y = 0f;
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
+        Vector3 direction = horizontal * right + vertical * forward;
 
         if (isGrounded)
         {
