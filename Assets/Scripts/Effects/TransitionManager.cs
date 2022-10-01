@@ -10,23 +10,29 @@ public class TransitionManager : MonoBehaviour
     public Color _fadeColor = Color.black;
 
     private static Image _fadeImage;
-    private static Coroutine _currentTransition;
+    private static IEnumerator _currentTransition;
 
     private static TransitionManager instance;
 
     private void Start()
     {
-        instance = this;
-        DontDestroyOnLoad(this);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+            Destroy(gameObject);
 
-        _fadeImage = GetComponentInChildren<Image>();
+        if (!_fadeImage)
+            _fadeImage = GetComponentInChildren<Image>();
     }
 
     public static void DoTransition(string toScene)
     {
         if (_currentTransition != null)
             instance.StopCoroutine(_currentTransition);
-        _currentTransition = instance.StartCoroutine(DoTransitionOnScene(toScene));
+        instance.StartCoroutine(_currentTransition = DoTransitionOnScene(toScene));
     }
 
     private static IEnumerator DoTransitionOnScene(string name)
