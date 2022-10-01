@@ -8,12 +8,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController controller;
 
     [SerializeField] private float speed;
+    [SerializeField] private float crouchSpeed;
+    [SerializeField] private float runSpeed;
 
     private Vector3 velocity;
 
     [SerializeField] private float turnSmoothTime;
     private float turnSmoothVelocity;
 
+
+    [SerializeField] private bool isCrouching;
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float groundCheckDistance;
@@ -47,12 +51,32 @@ public class PlayerMovement : MonoBehaviour
         Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
         Vector3 direction = horizontal * right + vertical * forward;
 
-        if (isGrounded)
+        if (isGrounded && !isCrouching)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            speed = runSpeed;
+            if (!isCrouching && Input.GetKeyDown(KeyCode.Space))
             {
                 Jump();
                 anim.SetTrigger("JumpTrigger");
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                Crouch();
+                anim.SetBool("IsCrouching", true);
+                controller.height = 1;
+                controller.center = new Vector3(controller.center.x, 0.5f, controller.center.z);
+            }
+        }
+        else if (isCrouching)
+        {
+            speed = crouchSpeed;
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Crouch();
+                anim.SetBool("IsCrouching", false);
+                controller.height = 2;
+                controller.center = new Vector3(controller.center.x, 1, controller.center.z);
             }
         }
 
@@ -64,11 +88,11 @@ public class PlayerMovement : MonoBehaviour
 
             controller.Move(direction * speed * Time.deltaTime);
 
-            anim.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+            anim.SetBool("IsRunning", true);
         }
         else
         {
-            anim.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
+            anim.SetBool("IsRunning", false);
         }
 
         velocity.y += gravity * Time.deltaTime;
@@ -76,8 +100,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void Run()
+    {
+
+    }
+
     private void Jump()
     {
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+    }
+
+    private void Crouch()
+    {
+        isCrouching = !isCrouching;
     }
 }
