@@ -1217,7 +1217,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99752510}
-  m_LocalRotation: {x: 0.23514374, y: 0.000000008361964, z: -0.0000000020229867, w: 0.9719606}
+  m_LocalRotation: {x: 0.23514374, y: -0.00000000836196, z: 0.000000002022986, w: 0.9719606}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10464,9 +10464,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 976006129}
-  _useCameraForward: 1
   speed: 7
+  crouchSpeed: 0
+  runSpeed: 0
   turnSmoothTime: 0.1
+  isCrouching: 0
   isGrounded: 0
   groundMask:
     serializedVersion: 2
@@ -19654,7 +19656,7 @@ GameObject:
   - component: {fileID: 1773316112}
   - component: {fileID: 1773316111}
   - component: {fileID: 1773316110}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19709,7 +19711,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e7eb34693cd914c40ab1a6376f8ed2bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21182,6 +21184,7 @@ GameObject:
   - component: {fileID: 1900808955}
   - component: {fileID: 1900808954}
   - component: {fileID: 1900808956}
+  - component: {fileID: 1900808957}
   m_Layer: 0
   m_Name: ThirdPersonCamera
   m_TagString: Untagged
@@ -21341,6 +21344,23 @@ MonoBehaviour:
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
+--- !u!114 &1900808957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900808953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f98a35c4f551749852bd49cf4c6e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LookAtTargetRadius: 0
+  m_MinDistance: 0
+  m_MaxDistance: 5.387716
+  m_SetToCameraToLookAtDistance: 1
+  m_FadeOutMaterial: {fileID: 2100000, guid: e7eb34693cd914c40ab1a6376f8ed2bc, type: 2}
 --- !u!1001 &1909918187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22247,7 +22267,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013337377}
-  m_LocalRotation: {x: 0.24791083, y: 0.000000008330295, z: -0.0000000021317166, w: 0.96878284}
+  m_LocalRotation: {x: 0.24791083, y: 0.000000008334621, z: -0.0000000021328237, w: 0.96878284}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

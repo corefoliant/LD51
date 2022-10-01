@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FadeOut
-  m_Shader: {fileID: 4800000, guid: 9392babd99652479d80820a9a52efdd6, type: 3}
+  m_Shader: {fileID: 4800000, guid: b94649d747a67914ca73a2ab91aec0ac, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -65,7 +65,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxDistance: 14.221463
+    - _MaxDistance: 5.387716
     - _Metallic: 0
     - _MinDistance: 0
     - _Mode: 0
