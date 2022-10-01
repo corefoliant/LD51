@@ -13,6 +13,19 @@ public class SettingsMenuButtons : MonoBehaviour
     public Slider _musicVolume;
     public Slider _effectsVolume;
 
+    private void Start()
+    {
+        float global;
+        float music;
+        float effects;
+
+        AudioManager.GetVolume(out global, out music, out effects);
+
+        _globalVolume.value = global;
+        _musicVolume.value = music;
+        _effectsVolume.value = effects;
+    }
+
     public void Back_Button()
     {
         _settingsCanvas.gameObject.SetActive(false);
@@ -22,16 +35,16 @@ public class SettingsMenuButtons : MonoBehaviour
 
     public void GlobalChanged_Slider(float value)
     {
-        print(value);
+        AudioManager.ChangeGlobalVolume(value);
     }
 
     public void MusicChanged_Slider(float value)
     {
-        print(value);
+        AudioManager.ChangeMusicVolume(value);
     }
 
     public void EffectsChanged_Slider(float value)
     {
-        print(value);
+        AudioManager.ChangeEffectsVolume(value);
     }
 }

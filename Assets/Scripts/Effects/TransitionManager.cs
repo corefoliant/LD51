@@ -16,10 +16,16 @@ public class TransitionManager : MonoBehaviour
 
     private void Start()
     {
-        instance = this;
-        DontDestroyOnLoad(this);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+            Destroy(gameObject);
 
-        _fadeImage = GetComponentInChildren<Image>();
+        if (!_fadeImage)
+            _fadeImage = GetComponentInChildren<Image>();
     }
 
     public static void DoTransition(string toScene)
