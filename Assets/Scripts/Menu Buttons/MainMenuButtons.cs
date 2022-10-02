@@ -12,7 +12,7 @@ public class MainMenuButtons : MonoBehaviour
     public void StartGame_Button()
     {
         // load scene here
-        TransitionManager.DoTransition("Intro");
+        TransitionManager.DoTransition("TestScenePlayer");
     }
 
     public void Settings_Button()
