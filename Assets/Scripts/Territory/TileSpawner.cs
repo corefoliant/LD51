@@ -14,6 +14,7 @@ public class TileSpawner : MonoBehaviour
     {
         Vector3 pos = (transform.childCount > 0) ? transform.GetChild(transform.childCount - 1).position : transform.position;
 
+        Random.InitState(System.DateTime.Now.Millisecond);
         var tile = Instantiate(_tiles[Random.Range(0, _tiles.Length)], pos, Quaternion.identity);
         tile.transform.SetParent(gameObject.transform);
         tile.transform.position += new Vector3(0, 0, tile.TileLentgh);
