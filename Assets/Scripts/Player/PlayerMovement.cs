@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     public static bool enableJump = true;
     public static bool invertedMovement = false;
+    public static char minusKey = '-';
 
     private void Start()
     {
@@ -50,9 +51,23 @@ public class PlayerMovement : MonoBehaviour
         //float vertical = Input.GetAxis("Vertical");
         //Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        
+        
+        if (minusKey == 'A')
+            _inputAxis = new Vector2(Mathf.Max(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
+        else if (minusKey == 'S')
+            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Max(Input.GetAxis("Vertical"), 0));
+        else if (minusKey == 'D')
+            _inputAxis = new Vector2(Mathf.Min(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
+        else if (minusKey == 'W')
+            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Min(Input.GetAxis("Vertical"), 0));
+        else
+            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        
         if (invertedMovement)
             _inputAxis = new Vector2(_inputAxis.x * -1, _inputAxis.y * -1);
+
+        
 
         Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
         forward.y = 0f;
