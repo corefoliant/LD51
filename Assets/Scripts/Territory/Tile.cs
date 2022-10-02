@@ -5,6 +5,7 @@ public class Tile : MonoBehaviour
     private Mechanic _conectedMechanic;
     public float TileLentgh = 100;
     private TileSpawner _spawner;
+
     private void OnEnable()
     {
         _conectedMechanic = GetComponent<Mechanic>();
@@ -15,10 +16,12 @@ public class Tile : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         _conectedMechanic.Enable();
         _spawner.TileSpawn();
+
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
             _conectedMechanic.Disable();
     }
 
