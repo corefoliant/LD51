@@ -27,9 +27,9 @@ public class MechanicManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             if (PlayerMovement.enableJump)
-                mechanics[3].Disable();
-            else
                 mechanics[3].Enable();
+            else
+                mechanics[3].Disable();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
