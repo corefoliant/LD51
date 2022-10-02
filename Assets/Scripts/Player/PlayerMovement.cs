@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 _inputAxis;
 
+    public static bool enableJump = true;
+    public static bool invertedMovement = false;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -48,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
         //Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (invertedMovement)
+            _inputAxis = new Vector2(_inputAxis.x * -1, _inputAxis.y * -1);
 
         Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
         forward.y = 0f;
@@ -59,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (enableJump && Input.GetKeyDown(KeyCode.Space))
             {
                 Jump();
                 anim.SetTrigger("JumpTrigger");
