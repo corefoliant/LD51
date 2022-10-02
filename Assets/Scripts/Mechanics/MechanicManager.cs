@@ -22,7 +22,10 @@ public class MechanicManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            //mechanics[2].Enable();
+            if (PlayerMovement.minusKey == '-')
+                mechanics[2].Enable();
+            else
+                mechanics[2].Disable();
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
