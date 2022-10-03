@@ -7,7 +7,7 @@ public class MinusOneKey_Mechanic : Mechanic
     public override void Enable()
     {
         int i = Random.Range(0, keys.Length);
-        PlayerMovement.minusKey = keys[i];
+        PlayerMovement.minusKey = 'Q';
         Debug.Log($"EnableMechanic -{keys[i]}");
     }
 

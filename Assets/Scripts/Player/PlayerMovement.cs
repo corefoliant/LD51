@@ -61,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
             _inputAxis = new Vector2(Mathf.Min(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
         else if (minusKey == 'W')
             _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Min(Input.GetAxis("Vertical"), 0));
+        else if (minusKey == 'Q')
+            _inputAxis = new Vector2(0, Mathf.Min(Input.GetAxis("Vertical"), 0));
         else
             _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         
