@@ -1,15 +1,21 @@
+using Cinemachine;
 using UnityEngine;
 
 public class CantJump_Mechanic : Mechanic
 {
+    public GameObject _enableRotation;
+    public GameObject _disableRotation;
+
     public override void Enable()
     {
         Debug.Log("EnableMechanic");
-        PlayerMovement.enableJump = false;
+        _disableRotation.gameObject.SetActive(true);
+        _enableRotation.gameObject.SetActive(false);
     }
     public override void Disable()
     {
         Debug.Log("DisableMechanic");
-        PlayerMovement.enableJump = true;
+        _disableRotation.gameObject.SetActive(false);
+        _enableRotation.gameObject.SetActive(true);
     }
 }
