@@ -9,9 +9,12 @@ public class BackWall : MonoBehaviour
         transform.position += new Vector3(0, 0, Time.deltaTime * _moveSpeed);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (collision.gameObject.CompareTag("Player")) {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            TransitionManager.DoTransition("Exnone");
+        }
     }
 }
