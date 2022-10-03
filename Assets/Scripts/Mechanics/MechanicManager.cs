@@ -4,6 +4,14 @@ public class MechanicManager : MonoBehaviour
 {
     [SerializeField] private Mechanic[] mechanics;
 
+    private void Start()
+    {
+        for (int i = 0; i < mechanics.Length; i++)
+        {
+            mechanics[i].Disable();
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Y))
