@@ -1,8 +1,28 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GamePlayScene : MonoBehaviour
 {
+    [SerializeField] private Mechanic[] _mechanics;
+    private Mechanic lastMechanic;
+    private void Start()
+    {
+        StartCoroutine(RandomMechanic());
+    }
+
+    IEnumerator RandomMechanic()
+    {
+        yield return new WaitForSeconds(10);
+        if(lastMechanic != null)
+            lastMechanic.Disable();
+        var num = Random.Range(0, _mechanics.Length);
+        lastMechanic = _mechanics[num];
+        lastMechanic.Enable();
+        StartCoroutine(RandomMechanic());
+    }
+
     public void ExitToMenu()
     {
         TransitionManager.DoTransition("MainMenu");
@@ -12,4 +32,7 @@ public class GamePlayScene : MonoBehaviour
     {
         TransitionManager.DoTransition("TestScenePlayer");
     }
+    
+    
+    
 }
