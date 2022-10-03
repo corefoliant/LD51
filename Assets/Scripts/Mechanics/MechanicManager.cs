@@ -8,7 +8,13 @@ public class MechanicManager : MonoBehaviour
     {
         for (int i = 0; i < mechanics.Length; i++)
         {
-            mechanics[i].Disable();
+            try
+            {
+                mechanics[i].Disable();
+            } catch (System.Exception e)
+            {
+                print("????? ??????");
+            }
         }
     }
 
