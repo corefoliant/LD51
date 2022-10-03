@@ -13,20 +13,9 @@ public class Tile : MonoBehaviour
             _conectedMechanic = GetComponent<Mechanic>();
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
-        if (_conectedMechanic) _conectedMechanic.Enable();
         _spawner.TileSpawn();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            if (_conectedMechanic) _conectedMechanic.Disable();
-        }
     }
 
     public void SetSpawner(TileSpawner spawner)
