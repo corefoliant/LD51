@@ -31,7 +31,9 @@ public class PlayerMovement : MonoBehaviour
     public static bool enableJump = true;
     public static bool invertedMovement = false;
     public static char minusKey = '-';
-
+    public Vector3 forward;
+    public Vector3 right;
+    public Vector3 direction;
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -47,49 +49,61 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         }
 
-        //float horizontal = Input.GetAxis("Horizontal");
-        //float vertical = Input.GetAxis("Vertical");
-        //Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
         
-        
-        if (minusKey == 'A')
-            _inputAxis = new Vector2(Mathf.Max(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
-        else if (minusKey == 'S')
-            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Max(Input.GetAxis("Vertical"), 0));
-        else if (minusKey == 'D')
-            _inputAxis = new Vector2(Mathf.Min(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
-        else if (minusKey == 'W')
-            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Min(Input.GetAxis("Vertical"), 0));
-        else if (minusKey == 'Q')
-            _inputAxis = new Vector2(0, Mathf.Min(Input.GetAxis("Vertical"), 0));
-        else
-            _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        
-        if (invertedMovement)
-            _inputAxis = new Vector2(_inputAxis.x * -1, _inputAxis.y * -1);
-
-        
-
-        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
-        forward.y = 0f;
-        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
-        Vector3 direction = _inputAxis.x * right + _inputAxis.y * forward;
 
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetBool("IsRunning", _inputAxis.magnitude > 0.1f);
 
         if (isGrounded)
         {
-            if (enableJump && Input.GetKeyDown(KeyCode.Space))
-            {
-                Jump();
-                anim.SetTrigger("JumpTrigger");
-            }
+            forward = Camera.main.transform.TransformDirection(Vector3.forward);
+            forward.y = 0f;
+            right = Camera.main.transform.TransformDirection(Vector3.right);
+            direction = _inputAxis.x * right + _inputAxis.y * forward;
 
-            if (Input.GetKeyDown(KeyCode.C))
+
+            if (minusKey == 'A')
+                _inputAxis = new Vector2(Mathf.Max(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
+            else if (minusKey == 'S')
+                _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Max(Input.GetAxis("Vertical"), 0));
+            else if (minusKey == 'D')
+                _inputAxis = new Vector2(Mathf.Min(Input.GetAxis("Horizontal"), 0), Input.GetAxis("Vertical"));
+            else if (minusKey == 'W')
+                _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Mathf.Min(Input.GetAxis("Vertical"), 0));
+            else if (minusKey == 'Q')
+                _inputAxis = new Vector2(0, Mathf.Min(Input.GetAxis("Vertical"), 0));
+            else
+                _inputAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+            if (invertedMovement)
+                _inputAxis = new Vector2(_inputAxis.x * -1, _inputAxis.y * -1);
+
+
+            if (invertedMovement)
             {
-                Crouch(!isCrouching);
+                if (enableJump && Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    Jump();
+                    anim.SetTrigger("JumpTrigger");
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Crouch(!isCrouching);
+                }
+            }
+            else
+            {
+                if (enableJump && Input.GetKeyDown(KeyCode.Space))
+                {
+                    Jump();
+                    anim.SetTrigger("JumpTrigger");
+                }
+
+                if (Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    Crouch(!isCrouching);
+                }
             }
 
             if (isCrouching)
