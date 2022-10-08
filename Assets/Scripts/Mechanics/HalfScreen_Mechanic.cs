@@ -5,7 +5,7 @@ public class HalfScreen_Mechanic : Mechanic
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private Image[] _sides;
-    private int CurSide = -1;
+    private int CurSide = 0;
     public static bool isHalfScreen = false;
     
     public override void Enable()

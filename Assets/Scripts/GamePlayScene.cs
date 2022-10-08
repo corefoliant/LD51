@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,6 +8,7 @@ public class GamePlayScene : MonoBehaviour
     private Mechanic lastMechanic;
     private void Start()
     {
+        PlayerPrefs.SetInt("Score", 0);
         StartCoroutine(RandomMechanic());
     }
 
